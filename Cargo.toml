@@ -1,0 +1,7 @@
+[package]
+name = "music_library_beautifier"
+version = "0.1.0"
+authors = ["madeindjs <contact@rousseau-alexandre.fr>"]
+
+[dependencies]
+metaflac = "0.1"
