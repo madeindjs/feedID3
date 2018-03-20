@@ -4,6 +4,7 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
+import org.json.JSONObject;
 
 public class Main {
 
@@ -16,9 +17,13 @@ public class Main {
             MyMp3File mp3file = new MyMp3File(file.getAbsolutePath());
 
             for (MissingTag missing : mp3file.getMissingTags()) {
-                System.err.println(missing);
+                System.err.println(String.format("THis tag is missing: %s", missing));
             }
         }
+        Discog api = new Discog();
+        JSONObject json = api.search("Red Pill");
+
+        System.out.println(json);
     }
 
 }

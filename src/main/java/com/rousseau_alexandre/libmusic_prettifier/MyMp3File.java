@@ -17,17 +17,13 @@ public class MyMp3File extends Mp3File {
         System.out.println(path);
 
         if (hasId3v1Tag()) {
-            System.out.println("Id3v1 found");
             id3 = getId3v1Tag();
 
         } else if (hasId3v2Tag()) {
-            System.out.println("Id3v2 found");
             id3 = getId3v2Tag();
             // @todo: do something here
         } else {
             // no tags found
-            System.out.println("No tag found");
-            System.exit(0);
         }
         findMissingTags();
 
@@ -42,6 +38,12 @@ public class MyMp3File extends Mp3File {
     }
 
     private void findMissingTags() {
+
+        if (id3 == null) {
+            missingTags.add(MissingTag.Id3);
+            return;
+        }
+
         if (id3.getAlbum() == null) {
             missingTags.add(MissingTag.Album);
         }

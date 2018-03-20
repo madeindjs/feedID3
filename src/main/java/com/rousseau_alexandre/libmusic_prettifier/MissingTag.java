@@ -6,5 +6,6 @@ public enum MissingTag {
     Artist,
     Year,
     GenreDescription,
+    Id3
 
 }
