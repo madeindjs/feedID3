@@ -14,6 +14,7 @@ public class MyMp3File extends Mp3File {
 
     public MyMp3File(String path) throws IOException, UnsupportedTagException, InvalidDataException {
         super(path);
+        System.out.println(path);
 
         if (hasId3v1Tag()) {
             System.out.println("Id3v1 found");
