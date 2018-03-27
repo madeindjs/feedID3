@@ -65,6 +65,10 @@ public class MyMp3File extends Mp3File {
         Discog api = new Discog();
         try {
             JSONObject json = api.search(getSearchStringFromFile());
+            if (json.length() > 0) {
+                ID3v1 id3 = getId3();
+            }
+
             System.out.println(json);
         } catch (IOException ex) {
             Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);

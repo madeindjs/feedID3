@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -37,10 +38,21 @@ public class Discog {
                 CONSUMER_KEY,
                 CONSUMER_SECRET
         );
+        JSONArray results = (JSONArray) getJsonFromUrl(targetURL).get("results");
 
-        System.out.println(targetURL);
+        if (results.length() == 0) {
+            return null;
+        }
 
-        URL url = new URL(targetURL);
+        JSONObject firstResult = (JSONObject) results.get(0);
+        String ressourceUrl = (String) firstResult.get("resource_url");
+
+        return (JSONObject) getJsonFromUrl(ressourceUrl);
+
+    }
+
+    private JSONObject getJsonFromUrl(String path) throws IOException {
+        URL url = new URL(path);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
 
@@ -51,7 +63,6 @@ public class Discog {
                 response.append(line);
             }
         }
-
         return new JSONObject(response.toString());
     }
 
