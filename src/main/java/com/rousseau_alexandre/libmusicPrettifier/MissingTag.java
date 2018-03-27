@@ -1,4 +1,4 @@
-package com.rousseau_alexandre.libmusic_prettifier;
+package com.rousseau_alexandre.libmusicPrettifier;
 
 public enum MissingTag {
 

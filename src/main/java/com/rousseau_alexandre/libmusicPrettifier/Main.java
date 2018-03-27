@@ -1,4 +1,4 @@
-package com.rousseau_alexandre.libmusic_prettifier;
+package com.rousseau_alexandre.libmusicPrettifier;
 
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.UnsupportedTagException;
