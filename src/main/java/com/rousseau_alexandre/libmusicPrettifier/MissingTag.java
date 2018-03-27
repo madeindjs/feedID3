@@ -11,6 +11,7 @@ public enum MissingTag {
     /**
      * The type for the GET search query
      *
+     * @return type for the GET search query
      * @see
      * https://www.discogs.com/developers/#page:database,header:database-search
      */
