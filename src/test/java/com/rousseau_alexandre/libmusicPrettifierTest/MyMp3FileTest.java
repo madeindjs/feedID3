@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class MyMp3FileTest {
 
-    private static final String MP3_FILEPATH = "src/test/resources/file.mp3";
+    private static final String MP3_FILEPATH = "src/test/resources/01 - Chris Orrick - Ten Year Party.mp3";
 
     @Test
     public void testMyMp3File() {
@@ -30,6 +30,12 @@ public class MyMp3FileTest {
         Assert.assertTrue(missings.contains(MissingTag.Artist));
         Assert.assertTrue(missings.contains(MissingTag.GenreDescription));
         Assert.assertTrue(missings.contains(MissingTag.Year));
+    }
+
+    @Test
+    public void testgetSearchStringFromFile() throws IOException, UnsupportedTagException, InvalidDataException {
+        MyMp3File file = new MyMp3File(MP3_FILEPATH);
+        Assert.assertEquals("Chris Orrick Ten Year Party", file.getSearchStringFromFile());
     }
 
 }

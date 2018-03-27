@@ -38,6 +38,8 @@ public class Discog {
                 CONSUMER_SECRET
         );
 
+        System.out.println(targetURL);
+
         URL url = new URL(targetURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
