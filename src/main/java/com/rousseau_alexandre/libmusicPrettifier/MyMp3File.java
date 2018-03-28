@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONObject;
 
 public class MyMp3File extends Mp3File {
 
@@ -64,12 +63,10 @@ public class MyMp3File extends Mp3File {
     public void getInformations() {
         Discog api = new Discog();
         try {
-            JSONObject json = api.search(getSearchStringFromFile());
-            if (json.length() > 0) {
-                ID3v1 id3 = getId3();
+            DiscogRelease result = api.search(getSearchStringFromFile());
+            if (result != null) {
+                // todo: update ID3 tag
             }
-
-            System.out.println(json);
         } catch (IOException ex) {
             Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);
         }

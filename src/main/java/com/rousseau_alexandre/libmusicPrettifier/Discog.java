@@ -31,7 +31,7 @@ public class Discog {
      * @throws MalformedURLException
      * @throws IOException
      */
-    public JSONObject search(String what) throws MalformedURLException, IOException {
+    public DiscogRelease search(String what) throws MalformedURLException, IOException {
         String targetURL = String.format(
                 "https://api.discogs.com/database/search?q=%s&key=%s&secret=%s",
                 URLEncoder.encode(what),
@@ -47,8 +47,7 @@ public class Discog {
         JSONObject firstResult = (JSONObject) results.get(0);
         String ressourceUrl = (String) firstResult.get("resource_url");
 
-        return (JSONObject) getJsonFromUrl(ressourceUrl);
-
+        return new DiscogRelease((JSONObject) getJsonFromUrl(ressourceUrl));
     }
 
     private JSONObject getJsonFromUrl(String path) throws IOException {
