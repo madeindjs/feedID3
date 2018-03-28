@@ -59,6 +59,7 @@ public class DiscogReleaseTest {
         DiscogRelease release = new DiscogRelease(result);
 
         Assert.assertEquals("Red Pill & L'Orange", release.getArtist());
+        Assert.assertEquals(7, release.getGenre());
         Assert.assertEquals("Hip Hop / Rap", release.getGenreDescription());
     }
 
@@ -69,7 +70,8 @@ public class DiscogReleaseTest {
         ID3v24Tag id3 = release.toID3();
 
         Assert.assertEquals("Red Pill & L'Orange", id3.getArtist());
-        Assert.assertEquals("Hip Hop / Rap", id3.getGenreDescription());
+        Assert.assertEquals(7, id3.getGenre());
+        Assert.assertEquals("Hip-Hop", id3.getGenreDescription());
     }
 
 }

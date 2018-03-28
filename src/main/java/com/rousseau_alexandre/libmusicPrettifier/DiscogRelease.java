@@ -39,6 +39,18 @@ public class DiscogRelease {
         return String.join(" & ", artists);
     }
 
+    /**
+     * @see https://de.wikipedia.org/wiki/Liste_der_ID3v1-Genres
+     * @return corresponding number of genre
+     */
+    public int getGenre() {
+        if (genres.length == 0) {
+            return 0;
+        }
+        ID3Genres id3Genres = new ID3Genres();
+        return id3Genres.get(genres[0]);
+    }
+
     public String getGenreDescription() {
         return String.join(" / ", genres);
     }
@@ -48,6 +60,7 @@ public class DiscogRelease {
 
         id3.setArtist(getArtist());
         id3.setGenreDescription(getGenreDescription());
+        id3.setGenre(getGenre());
 
         return id3;
     }
