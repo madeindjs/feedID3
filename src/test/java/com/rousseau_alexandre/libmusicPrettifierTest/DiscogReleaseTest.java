@@ -22,7 +22,7 @@ public class DiscogReleaseTest {
      *
      * @return
      */
-    private DiscogRelease getJsonObject() throws IOException {
+    public static DiscogRelease getDiscogRelease() throws IOException {
         String content = new String(Files.readAllBytes(Paths.get(JSON_PATH)));
         JSONObject json = new JSONObject(content);
 
@@ -31,13 +31,13 @@ public class DiscogReleaseTest {
 
     @Test
     public void testDiscogRelease() throws IOException {
-        JSONObject result = getJsonObject();
+        JSONObject result = getDiscogRelease();
         DiscogRelease release = new DiscogRelease(result);
     }
 
     @Test
     public void testParseJsonObject() throws IOException {
-        JSONObject result = getJsonObject();
+        JSONObject result = getDiscogRelease();
         DiscogRelease release = new DiscogRelease(result);
 
         Assert.assertEquals("Red Pill", release.getArtist());
@@ -50,7 +50,7 @@ public class DiscogReleaseTest {
 
     @Test
     public void testToId3() throws IOException {
-        JSONObject result = getJsonObject();
+        JSONObject result = getDiscogRelease();
         DiscogRelease release = new DiscogRelease(result);
         ID3v24Tag id3 = release.toID3();
 

@@ -1,8 +1,10 @@
 package com.rousseau_alexandre.libmusicPrettifier;
 
 import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +13,10 @@ import java.util.logging.Logger;
 
 public class MyMp3File extends Mp3File {
 
+    private static final String RETAG_EXTENSION = ".retag";
+
     private ID3v1 id3;
+    private ID3v24Tag newId3;
 
     public MyMp3File(String path) throws IOException, UnsupportedTagException, InvalidDataException {
         super(path);
@@ -30,6 +35,31 @@ public class MyMp3File extends Mp3File {
 
     public ID3v1 getId3() {
         return id3;
+    }
+
+    /**
+     * For testing purpose
+     *
+     * @param newId3
+     */
+    public void setNewId3(ID3v24Tag newId3) {
+        this.newId3 = newId3;
+    }
+
+    public void update() throws IOException, NotSupportedException {
+        //this.setId3v2Tag(newId3);
+        this.setNewId3(newId3);
+        this.save(getRetagFilename());
+
+        File origin = new File(this.getFilename());
+        File retag = new File(getRetagFilename());
+
+        origin.delete();
+        retag.renameTo(origin);
+    }
+
+    private String getRetagFilename() {
+        return this.getFilename() + RETAG_EXTENSION;
     }
 
     /**
