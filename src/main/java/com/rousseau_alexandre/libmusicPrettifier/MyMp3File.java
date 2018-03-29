@@ -114,14 +114,21 @@ public class MyMp3File extends Mp3File {
     /**
      * Send a request to Discog API. It will gess informations to search from
      * the current informations contained in ID3 tag or from the filename
+     *
+     * @return `true` if success
      */
-    public void getInformations() {
+    public boolean getInformations() {
         Discog api = new Discog();
         try {
             DiscogRelease result = api.search(getSearchStringFromFile());
+            if (result != null) {
+                newID3 = result.toID3();
+                return true;
+            }
         } catch (IOException ex) {
             Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return false;
     }
 
 }
