@@ -15,17 +15,17 @@ public class MyMp3File extends Mp3File {
 
     private static final String RETAG_EXTENSION = ".retag";
 
-    private ID3v1 id3;
-    private ID3v24Tag newId3;
+    private ID3v1 currentID3;
+    private ID3v24Tag newID3;
 
     public MyMp3File(String path) throws IOException, UnsupportedTagException, InvalidDataException {
         super(path);
 
         if (hasId3v1Tag()) {
-            id3 = getId3v1Tag();
+            currentID3 = getId3v1Tag();
 
         } else if (hasId3v2Tag()) {
-            id3 = getId3v2Tag();
+            currentID3 = getId3v2Tag();
             // @todo: do something here
         } else {
             // no tags found
@@ -33,22 +33,25 @@ public class MyMp3File extends Mp3File {
 
     }
 
-    public ID3v1 getId3() {
-        return id3;
+    public ID3v1 getCurrentID3() {
+        return currentID3;
+    }
+
+    public ID3v24Tag getNewID3() {
+        return newID3;
     }
 
     /**
      * For testing purpose
      *
-     * @param newId3
+     * @param newID3
      */
-    public void setNewId3(ID3v24Tag newId3) {
-        this.newId3 = newId3;
+    public void setNewID3(ID3v24Tag newID3) {
+        this.newID3 = newID3;
     }
 
     public void update() throws IOException, NotSupportedException {
-        //this.setId3v2Tag(newId3);
-        this.setNewId3(newId3);
+        this.setNewID3(newID3);
         this.save(getRetagFilename());
 
         File origin = new File(this.getFilename());

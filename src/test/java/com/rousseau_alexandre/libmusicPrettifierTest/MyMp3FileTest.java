@@ -58,7 +58,7 @@ public class MyMp3FileTest {
 
         MyMp3File file = new MyMp3File(MP3_FILEPATH);
 
-        Assert.assertEquals("Red Pill", file.getId3().getArtist());
+        Assert.assertEquals("Red Pill", file.getCurrentID3().getArtist());
     }
 
 }
