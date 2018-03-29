@@ -8,34 +8,25 @@ import org.json.JSONObject;
  * This is class is supposed to parse JSON given from Discog API. Example:
  * https://api.discogs.com/releases/6879728
  */
-public class DiscogRelease {
+public class DiscogRelease extends JSONObject {
 
-    private final String[] artists;
-    private final String[] genres;
+    public DiscogRelease(JSONObject json) {
+        super(json.toMap());
 
-    public DiscogRelease(JSONObject result) {
-        // artists
-        {
-            JSONArray artistsArray = (JSONArray) result.get("artists");
-            int length = artistsArray.length();
-            this.artists = new String[length];
-            for (int i = 0; i < length; i++) {
-                JSONObject artist = artistsArray.getJSONObject(i);
-                this.artists[i] = (String) artist.get("name");
-            }
-        }
-        // genres
-        {
-            JSONArray genresArray = (JSONArray) result.get("genres");
-            int length = genresArray.length();
-            this.genres = new String[length];
-            for (int i = 0; i < length; i++) {
-                this.genres[i] = (String) genresArray.getString(i);
-            }
-        }
+    }
+
+    public String getTitle() {
+        return this.getString("title");
     }
 
     public String getArtist() {
+        JSONArray artistsArray = (JSONArray) this.get("artists");
+        int length = artistsArray.length();
+        String[] artists = new String[length];
+        for (int i = 0; i < length; i++) {
+            JSONObject artist = artistsArray.getJSONObject(i);
+            artists[i] = (String) artist.get("name");
+        }
         return String.join(" & ", artists);
     }
 
@@ -44,20 +35,30 @@ public class DiscogRelease {
      * @return corresponding number of genre
      */
     public int getGenre() {
-        if (genres.length == 0) {
+        JSONArray genresArray = (JSONArray) this.get("genres");
+        int length = genresArray.length();
+
+        if (length == 0) {
             return 0;
         }
         ID3Genres id3Genres = new ID3Genres();
-        return id3Genres.get(genres[0]);
+        return id3Genres.get(genresArray.getString(0));
     }
 
     public String getGenreDescription() {
+        JSONArray genresArray = (JSONArray) this.get("genres");
+        int length = genresArray.length();
+        String[] genres = new String[length];
+        for (int i = 0; i < length; i++) {
+            genres[i] = (String) genresArray.getString(i);
+        }
         return String.join(" / ", genres);
     }
 
     public ID3v24Tag toID3() {
         ID3v24Tag id3 = new ID3v24Tag();
 
+        id3.setTitle(getTitle());
         id3.setArtist(getArtist());
         id3.setGenreDescription(getGenreDescription());
         id3.setGenre(getGenre());

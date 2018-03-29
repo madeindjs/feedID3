@@ -20,11 +20,11 @@ public class DiscogReleaseTest {
      */
     private JSONObject getJsonObject() {
         JSONObject json = new JSONObject();
-
         // artists
         {
             JSONObject firstArtist = new JSONObject();
             firstArtist.put("name", "Red Pill");
+            firstArtist.put("resource_url", "https://api.discogs.com/artists/3835396");
 
             JSONObject secondArtist = new JSONObject();
             secondArtist.put("name", "L'Orange");
@@ -41,10 +41,12 @@ public class DiscogReleaseTest {
             genres.put("Rap");
             json.put("genres", genres);
         }
+        // title
+        {
+            json.put("title", "Look What This World Did to Us");
+        }
 
-        System.out.println(json.toString());
-
-        return json;
+        return new DiscogRelease(json);
     }
 
     @Test
@@ -61,6 +63,7 @@ public class DiscogReleaseTest {
         Assert.assertEquals("Red Pill & L'Orange", release.getArtist());
         Assert.assertEquals(7, release.getGenre());
         Assert.assertEquals("Hip Hop / Rap", release.getGenreDescription());
+        Assert.assertEquals("Look What This World Did to Us", release.getTitle());
     }
 
     @Test
@@ -72,6 +75,7 @@ public class DiscogReleaseTest {
         Assert.assertEquals("Red Pill & L'Orange", id3.getArtist());
         Assert.assertEquals(7, id3.getGenre());
         Assert.assertEquals("Hip-Hop", id3.getGenreDescription());
+        Assert.assertEquals("Look What This World Did to Us", id3.getTitle());
     }
 
 }
