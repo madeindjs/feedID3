@@ -41,9 +41,10 @@ public class DiscogReleaseTest {
             genres.put("Rap");
             json.put("genres", genres);
         }
-        // title
+        // other
         {
             json.put("title", "Look What This World Did to Us");
+            json.put("year", 2015);
         }
 
         return new DiscogRelease(json);
@@ -61,9 +62,11 @@ public class DiscogReleaseTest {
         DiscogRelease release = new DiscogRelease(result);
 
         Assert.assertEquals("Red Pill & L'Orange", release.getArtist());
+        Assert.assertEquals("https://api.discogs.com/artists/3835396", release.getArtistUrl());
         Assert.assertEquals(7, release.getGenre());
         Assert.assertEquals("Hip Hop / Rap", release.getGenreDescription());
         Assert.assertEquals("Look What This World Did to Us", release.getTitle());
+        Assert.assertEquals(2015, release.getYear());
     }
 
     @Test
@@ -73,9 +76,11 @@ public class DiscogReleaseTest {
         ID3v24Tag id3 = release.toID3();
 
         Assert.assertEquals("Red Pill & L'Orange", id3.getArtist());
+        Assert.assertEquals("https://api.discogs.com/artists/3835396", id3.getArtistUrl());
         Assert.assertEquals(7, id3.getGenre());
         Assert.assertEquals("Hip-Hop", id3.getGenreDescription());
         Assert.assertEquals("Look What This World Did to Us", id3.getTitle());
+        Assert.assertEquals("2015", id3.getYear());
     }
 
 }

@@ -2,6 +2,7 @@ package com.rousseau_alexandre.libmusicPrettifier;
 
 import com.mpatric.mp3agic.ID3v24Tag;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -16,7 +17,27 @@ public class DiscogRelease extends JSONObject {
     }
 
     public String getTitle() {
-        return this.getString("title");
+        try {
+            return this.getString("title");
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    public String getAlbum() {
+        try {
+            return this.getString("title");
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
+    public int getYear() {
+        try {
+            return this.getInt("year");
+        } catch (JSONException e) {
+            return 0;
+        }
     }
 
     public String getArtist() {
@@ -30,6 +51,15 @@ public class DiscogRelease extends JSONObject {
         return String.join(" & ", artists);
     }
 
+    public String getArtistUrl() {
+        try {
+            JSONArray artistsArray = (JSONArray) this.get("artists");
+            return artistsArray.getJSONObject(0).getString("resource_url");
+        } catch (JSONException e) {
+            return null;
+        }
+    }
+
     /**
      * @see https://de.wikipedia.org/wiki/Liste_der_ID3v1-Genres
      * @return corresponding number of genre
@@ -41,7 +71,7 @@ public class DiscogRelease extends JSONObject {
         if (length == 0) {
             return 0;
         }
-        ID3Genres id3Genres = new ID3Genres();
+        final ID3Genres id3Genres = new ID3Genres();
         return id3Genres.get(genresArray.getString(0));
     }
 
@@ -59,9 +89,15 @@ public class DiscogRelease extends JSONObject {
         ID3v24Tag id3 = new ID3v24Tag();
 
         id3.setTitle(getTitle());
+        // artist
         id3.setArtist(getArtist());
+        id3.setArtistUrl(getArtistUrl());
+        id3.setAlbumArtist(getArtist());
+        // genre
         id3.setGenreDescription(getGenreDescription());
         id3.setGenre(getGenre());
+
+        id3.setYear(Integer.toString(getYear()));
 
         return id3;
     }
