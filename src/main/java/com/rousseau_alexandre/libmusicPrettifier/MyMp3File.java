@@ -13,30 +13,47 @@ import java.util.logging.Logger;
 
 public class MyMp3File extends Mp3File {
 
+    /**
+     * Extension of the file
+     */
     private static final String RETAG_EXTENSION = ".retag";
-
+    /**
+     * Represent the current ID3 tag for the file
+     */
     private ID3v1 currentID3;
-    private ID3v24Tag newID3;
+    /**
+     * Represent the new ID3 tag with informations fetched from Discog API
+     */
+    private ID3v24Tag newID3 = new ID3v24Tag();
 
+    /**
+     * Open a new MP3 file
+     *
+     * @param path
+     * @throws IOException
+     * @throws UnsupportedTagException
+     * @throws InvalidDataException
+     */
     public MyMp3File(String path) throws IOException, UnsupportedTagException, InvalidDataException {
         super(path);
 
-        if (hasId3v1Tag()) {
-            currentID3 = getId3v1Tag();
-
-        } else if (hasId3v2Tag()) {
+        if (hasId3v2Tag()) {
             currentID3 = getId3v2Tag();
-            // @todo: do something here
-        } else {
-            // no tags found
+        } else if (hasId3v1Tag()) {
+            currentID3 = getId3v1Tag();
         }
-
     }
 
+    /**
+     * @return the current ID3 tag linked to this file
+     */
     public ID3v1 getCurrentID3() {
         return currentID3;
     }
 
+    /**
+     * @return get the ID3 tag who'll be saved in the file
+     */
     public ID3v24Tag getNewID3() {
         return newID3;
     }
@@ -50,8 +67,16 @@ public class MyMp3File extends Mp3File {
         this.newID3 = newID3;
     }
 
+    /**
+     * Update ID3 tag with `newID3` variable
+     *
+     * @throws IOException
+     * @throws NotSupportedException
+     */
     public void update() throws IOException, NotSupportedException {
-        this.setNewID3(newID3);
+        // this.setId3v2Tag(newID3);
+        this.setId3v1Tag(newID3);
+        this.currentID3 = newID3;
         this.save(getRetagFilename());
 
         File origin = new File(this.getFilename());
@@ -86,13 +111,14 @@ public class MyMp3File extends Mp3File {
         return name;
     }
 
+    /**
+     * Send a request to Discog API. It will gess informations to search from
+     * the current informations contained in ID3 tag or from the filename
+     */
     public void getInformations() {
         Discog api = new Discog();
         try {
             DiscogRelease result = api.search(getSearchStringFromFile());
-            if (result != null) {
-                // todo: update ID3 tag
-            }
         } catch (IOException ex) {
             Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);
         }
