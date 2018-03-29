@@ -6,14 +6,12 @@ import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MyMp3File extends Mp3File {
 
     private ID3v1 id3;
-    private Vector<MissingTag> missingTags = new Vector();
 
     public MyMp3File(String path) throws IOException, UnsupportedTagException, InvalidDataException {
         super(path);
@@ -27,7 +25,6 @@ public class MyMp3File extends Mp3File {
         } else {
             // no tags found
         }
-        findMissingTags();
 
     }
 
@@ -56,10 +53,6 @@ public class MyMp3File extends Mp3File {
         return name;
     }
 
-    public Vector<MissingTag> getMissingTags() {
-        return missingTags;
-    }
-
     public void getInformations() {
         Discog api = new Discog();
         try {
@@ -70,31 +63,6 @@ public class MyMp3File extends Mp3File {
         } catch (IOException ex) {
             Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    private void findMissingTags() {
-
-        if (id3 == null) {
-            missingTags.add(MissingTag.Id3);
-            return;
-        }
-
-        if (id3.getAlbum() == null) {
-            missingTags.add(MissingTag.Album);
-        }
-
-        if (id3.getArtist() == null) {
-            missingTags.add(MissingTag.Artist);
-        }
-
-        if (id3.getGenreDescription() == null) {
-            missingTags.add(MissingTag.GenreDescription);
-        }
-
-        if (id3.getYear() == null) {
-            missingTags.add(MissingTag.Year);
-        }
-
     }
 
 }
