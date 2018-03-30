@@ -64,14 +64,19 @@ public class DiscogReleaseTest {
     }
 
     @Test
-    public void getImageUrl() throws IOException {
+    public void getImage() throws IOException {
         JSONObject result = getDiscogRelease();
         DiscogRelease release = new DiscogRelease(result);
 
+        // verify that URL is scraped
         String imageUrl = release.getImageUrl();
         System.out.println(imageUrl);
-
         Assert.assertEquals(IMAGE_URL, imageUrl);
+
+        // verify that image is generated
+        ID3v24Tag id3 = release.toID3();
+        byte[] image = id3.getAlbumImage();
+        Assert.assertNotNull(id3.getAlbumImage());
     }
 
 }
