@@ -79,6 +79,7 @@ public class DiscogReleaseTest {
         ID3v24Tag id3 = release.toID3();
         byte[] image = id3.getAlbumImage();
         Assert.assertNotNull(id3.getAlbumImage());
+        Assert.assertNotNull("image/jpg", id3.getAlbumImageMimeType());
     }
 
 }

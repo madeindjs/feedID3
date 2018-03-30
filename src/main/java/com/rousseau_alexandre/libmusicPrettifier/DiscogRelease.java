@@ -1,15 +1,9 @@
 package com.rousseau_alexandre.libmusicPrettifier;
 
 import com.mpatric.mp3agic.ID3v24Tag;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,28 +92,6 @@ public class DiscogRelease extends JSONObject {
         return String.join(" / ", genres);
     }
 
-    public byte[] getImage() {
-        String imageUrl = getImageUrl();
-
-        if (imageUrl == null) {
-            return null;
-        }
-
-        try {
-            URL url = new URL(imageUrl);
-            BufferedImage bufferedImage = ImageIO.read(url);
-            WritableRaster raster = bufferedImage.getRaster();
-            DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
-
-            return data.getData();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(DiscogRelease.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(DiscogRelease.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
     public String getImageUrl() {
         try {
             String resourceUrl = this.getString("uri");
@@ -147,10 +119,11 @@ public class DiscogRelease extends JSONObject {
         // genre
         id3.setGenreDescription(getGenreDescription());
         id3.setGenre(getGenre());
-
+        // year
         id3.setYear(Integer.toString(getYear()));
-
-        id3.setAlbumImage(getImage(), "azerty");
+        // set image
+        DiscogImage image = new DiscogImage(getImageUrl());
+        id3.setAlbumImage(image.data, image.mimetype);
 
         return id3;
     }
