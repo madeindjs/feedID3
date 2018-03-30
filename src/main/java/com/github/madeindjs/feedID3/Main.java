@@ -9,6 +9,9 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException {
+        Discog.CONSUMER_KEY = "<YOUR_CONSUMER_KEY>";
+        Discog.CONSUMER_SECRET = "<YOUR_CONSUMER_SECRET>";
+
         // Open file
         MyMp3File file = new MyMp3File("src/test/resources/empty.mp3");
         // fetch informations from Discog API

@@ -17,8 +17,8 @@ import org.json.JSONObject;
  */
 public class Discog {
 
-    public static final String CONSUMER_KEY = "xEnspHdzbJFKuGlvlNde";
-    public static final String CONSUMER_SECRET = "jtgMHnbpRaGbXEDBXimCDddFqLtzZTAG";
+    public static String CONSUMER_KEY = null;
+    public static String CONSUMER_SECRET = null;
 
     /**
      * Send a GET request to find something
@@ -31,7 +31,8 @@ public class Discog {
      * @throws MalformedURLException
      * @throws IOException
      */
-    public DiscogRelease search(String what) throws MalformedURLException, IOException {
+    public DiscogRelease search(String what) throws MalformedURLException, IOException, DiscogConsumerNotSetException {
+        checkConsumer();
         String targetURL = String.format(
                 "https://api.discogs.com/database/search?q=%s&key=%s&secret=%s",
                 URLEncoder.encode(what),
@@ -63,6 +64,12 @@ public class Discog {
             }
         }
         return new JSONObject(response.toString());
+    }
+
+    private void checkConsumer() throws DiscogConsumerNotSetException {
+        if (CONSUMER_KEY == null || CONSUMER_SECRET == null) {
+            throw new DiscogConsumerNotSetException();
+        }
     }
 
 }
