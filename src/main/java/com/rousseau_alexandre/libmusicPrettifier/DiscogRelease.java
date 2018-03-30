@@ -111,7 +111,7 @@ public class DiscogRelease extends JSONObject {
             WritableRaster raster = bufferedImage.getRaster();
             DataBufferByte data = (DataBufferByte) raster.getDataBuffer();
 
-            return (data.getData());
+            return data.getData();
         } catch (MalformedURLException ex) {
             Logger.getLogger(DiscogRelease.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -142,6 +142,7 @@ public class DiscogRelease extends JSONObject {
         // artist
         id3.setArtist(getArtist());
         id3.setArtistUrl(getArtistUrl());
+        id3.setAlbum(getAlbum());
         id3.setAlbumArtist(getArtist());
         // genre
         id3.setGenreDescription(getGenreDescription());

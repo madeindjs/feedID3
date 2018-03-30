@@ -46,6 +46,7 @@ public class DiscogReleaseTest {
         Assert.assertEquals(7, release.getGenre());
         Assert.assertEquals("Hip Hop", release.getGenreDescription());
         Assert.assertEquals("Look What This World Did to Us", release.getTitle());
+        Assert.assertEquals("Look What This World Did to Us", release.getAlbum());
         Assert.assertEquals(2015, release.getYear());
     }
 
@@ -60,6 +61,7 @@ public class DiscogReleaseTest {
         Assert.assertEquals(7, id3.getGenre());
         Assert.assertEquals("Hip-Hop", id3.getGenreDescription());
         Assert.assertEquals("Look What This World Did to Us", id3.getTitle());
+        Assert.assertEquals("Look What This World Did to Us", id3.getAlbum());
         Assert.assertEquals("2015", id3.getYear());
     }
 
