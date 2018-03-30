@@ -1,7 +1,7 @@
-package com.rousseau_alexandre.libmusicPrettifierTest;
+package com.github.madeindjs.feedID3Test;
 
 import com.mpatric.mp3agic.ID3v24Tag;
-import com.rousseau_alexandre.libmusicPrettifier.DiscogRelease;
+import com.github.madeindjs.feedID3.DiscogRelease;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

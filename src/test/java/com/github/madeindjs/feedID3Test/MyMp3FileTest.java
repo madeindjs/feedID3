@@ -1,11 +1,11 @@
-package com.rousseau_alexandre.libmusicPrettifierTest;
+package com.github.madeindjs.feedID3Test;
 
 import com.mpatric.mp3agic.ID3v22Tag;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
-import com.rousseau_alexandre.libmusicPrettifier.DiscogRelease;
-import com.rousseau_alexandre.libmusicPrettifier.MyMp3File;
+import com.github.madeindjs.feedID3.DiscogRelease;
+import com.github.madeindjs.feedID3.MyMp3File;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

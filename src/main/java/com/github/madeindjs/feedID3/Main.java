@@ -1,17 +1,5 @@
-feedID3
-=======
+package com.github.madeindjs.feedID3;
 
-Improve MP3's ID3 tags using [Discogs](https://www.discogs.com) API.
-
-> Currently on alpha stage, use it at your own risk
-
-Usage
------
-
-* Correct your mp3 file
-
-~~~java
-import com.github.madeindjs.feedID3.MyMp3File;
 import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.NotSupportedException;
@@ -33,22 +21,3 @@ public class Main {
     }
 
 }
-~~~
-
-* Correct all your librairy **(This will overwride all your mp3 tags)**
-
-~~~java
-import com.github.madeindjs.feedID3.Librairy;
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.mpatric.mp3agic.UnsupportedTagException;
-
-public class Main {
-
-    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException {
-        Librairy librairy = new Librairy("src/test/resources");
-        librairy.correct();
-    }
-
-}
-~~~

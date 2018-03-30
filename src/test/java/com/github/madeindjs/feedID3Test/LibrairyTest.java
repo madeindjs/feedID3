@@ -1,6 +1,6 @@
-package com.rousseau_alexandre.libmusicPrettifierTest;
+package com.github.madeindjs.feedID3Test;
 
-import com.rousseau_alexandre.libmusicPrettifier.Librairy;
+import com.github.madeindjs.feedID3.Librairy;
 import junit.framework.Assert;
 import org.junit.Test;
 

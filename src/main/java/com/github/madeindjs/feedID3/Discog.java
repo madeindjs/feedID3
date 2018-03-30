@@ -1,4 +1,4 @@
-package com.rousseau_alexandre.libmusicPrettifier;
+package com.github.madeindjs.feedID3;
 
 import java.io.BufferedReader;
 import java.io.IOException;

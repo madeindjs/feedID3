@@ -1,6 +1,7 @@
-package com.rousseau_alexandre.libmusicPrettifier;
+package com.github.madeindjs.feedID3;
 
 import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +26,13 @@ public class Librairy {
     public void correct() {
         for (MyMp3File mp3File : mp3Files) {
             mp3File.getInformations();
+            try {
+                mp3File.update();
+            } catch (IOException ex) {
+                Logger.getLogger(Librairy.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NotSupportedException ex) {
+                Logger.getLogger(Librairy.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

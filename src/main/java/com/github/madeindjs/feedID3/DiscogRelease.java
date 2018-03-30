@@ -1,4 +1,4 @@
-package com.rousseau_alexandre.libmusicPrettifier;
+package com.github.madeindjs.feedID3;
 
 import com.mpatric.mp3agic.ID3v24Tag;
 import java.io.IOException;
