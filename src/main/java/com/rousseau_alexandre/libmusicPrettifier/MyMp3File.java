@@ -1,6 +1,7 @@
 package com.rousseau_alexandre.libmusicPrettifier;
 
 import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -58,6 +59,18 @@ public class MyMp3File extends Mp3File {
         return newID3;
     }
 
+    @Override
+    public void setId3v1Tag(ID3v1 id3v1) {
+        super.setId3v1Tag(id3v1);
+        this.currentID3 = id3v1;
+    }
+
+    @Override
+    public void setId3v2Tag(ID3v2 id3v2) {
+        super.setId3v2Tag(id3v2);
+        this.currentID3 = id3v2;
+    }
+
     /**
      * For testing purpose
      *
@@ -88,6 +101,24 @@ public class MyMp3File extends Mp3File {
 
     private String getRetagFilename() {
         return this.getFilename() + RETAG_EXTENSION;
+    }
+
+    /**
+     * Get the search String from ID3 if it contains somes basics information
+     * (title & artists) or from file if ID is not complete
+     *
+     * @return
+     */
+    public String getSearchString() {
+        if (this.currentID3 != null && this.currentID3.getArtist() != null && this.currentID3.getTitle() != null) {
+            return getSearchStringFromID3();
+        } else {
+            return getSearchStringFromFile();
+        }
+    }
+
+    public String getSearchStringFromID3() {
+        return String.format("%s %s", currentID3.getArtist(), currentID3.getTitle());
     }
 
     /**

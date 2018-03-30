@@ -1,5 +1,6 @@
 package com.rousseau_alexandre.libmusicPrettifierTest;
 
+import com.mpatric.mp3agic.ID3v22Tag;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
@@ -38,6 +39,18 @@ public class MyMp3FileTest {
         } catch (Exception e) {
             Assert.assertNull(e);
         }
+    }
+
+    @Test
+    public void getSearchString() throws IOException, UnsupportedTagException, InvalidDataException {
+        MyMp3File file = new MyMp3File(MP3_FILEPATH);
+        Assert.assertEquals("Chris Orrick Ten Year Party", file.getSearchString());
+
+        ID3v22Tag id3 = new ID3v22Tag();
+        id3.setTitle("We did it");
+        id3.setArtist("The Kount");
+        file.setId3v2Tag(id3);
+        Assert.assertEquals("The Kount We did it", file.getSearchString());
     }
 
     @Test
