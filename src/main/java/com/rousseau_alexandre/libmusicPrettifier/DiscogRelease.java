@@ -1,9 +1,16 @@
 package com.rousseau_alexandre.libmusicPrettifier;
 
 import com.mpatric.mp3agic.ID3v24Tag;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * This is class is supposed to parse JSON given from Discog API. Example:
@@ -83,6 +90,21 @@ public class DiscogRelease extends JSONObject {
             genres[i] = (String) genresArray.getString(i);
         }
         return String.join(" / ", genres);
+    }
+
+    public String getImageUrl() {
+        try {
+            String resourceUrl = this.getString("uri");
+            Document doc = Jsoup.connect(resourceUrl).get();
+            Elements metas = doc.head().select("meta[property=\"og:image\"]");
+            if (!metas.isEmpty()) {
+                Element element = metas.get(0);
+                return element.attr("content");
+            }
+        } catch (JSONException | IOException ex) {
+            Logger.getLogger(DiscogRelease.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public ID3v24Tag toID3() {

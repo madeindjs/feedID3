@@ -16,6 +16,7 @@ import org.junit.Test;
 public class DiscogReleaseTest {
 
     private static final String JSON_PATH = "src/test/resources/release.json";
+    private static final String IMAGE_URL = "https://img.discogs.com/G1-XpvxNjMmcU_HRoshplE-jxGY=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6879728-1428607084-9223.jpeg.jpg";
 
     /**
      * Get a JSONObject who represent a result from Discog API
@@ -60,6 +61,17 @@ public class DiscogReleaseTest {
         Assert.assertEquals("Hip-Hop", id3.getGenreDescription());
         Assert.assertEquals("Look What This World Did to Us", id3.getTitle());
         Assert.assertEquals("2015", id3.getYear());
+    }
+
+    @Test
+    public void getImageUrl() throws IOException {
+        JSONObject result = getDiscogRelease();
+        DiscogRelease release = new DiscogRelease(result);
+
+        String imageUrl = release.getImageUrl();
+        System.out.println(imageUrl);
+
+        Assert.assertEquals(IMAGE_URL, imageUrl);
     }
 
 }
