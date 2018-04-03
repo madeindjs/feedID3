@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException, DiscogConsumerNotSetException {
+    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException, MalformedURLException, DiscogConsumerNotSetException {
         // set API key
         Discog.CONSUMER_KEY = "<YOUR_CONSUMER_KEY>";
         Discog.CONSUMER_SECRET = "<YOUR_CONSUMER_SECRET>";
@@ -51,7 +51,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, DiscogConsumerNotSetException {
+    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException, MalformedURLException, DiscogConsumerNotSetException {
         // set API key
         Discog.CONSUMER_KEY = "<YOUR_CONSUMER_KEY>";
         Discog.CONSUMER_SECRET = "<YOUR_CONSUMER_SECRET>";

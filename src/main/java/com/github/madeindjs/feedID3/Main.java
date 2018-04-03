@@ -5,10 +5,11 @@ import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException {
+    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException, MalformedURLException, DiscogConsumerNotSetException {
         Discog.CONSUMER_KEY = "<YOUR_CONSUMER_KEY>";
         Discog.CONSUMER_SECRET = "<YOUR_CONSUMER_SECRET>";
 

@@ -5,6 +5,7 @@ import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public class Librairy {
         findMp3FilesInFolder(path);
     }
 
-    public void correct() {
+    public void correct() throws MalformedURLException, DiscogConsumerNotSetException {
         for (MyMp3File mp3File : mp3Files) {
             mp3File.getInformations();
             try {
