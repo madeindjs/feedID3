@@ -8,6 +8,31 @@ Improve MP3's ID3 tags using [Discogs](https://www.discogs.com) API.
 Usage
 -----
 
+You can import this librairy in your project using [Jitpack](https://jitpack.io/). Example using Gradle:
+
+~~~gradle
+// build.gradle
+
+// ..
+
+allprojects {
+    repositories {
+        // ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+
+dependencies {
+    // ...
+    compile 'com.github.madeindjs:feedid3:0.1'
+}
+~~~
+
+
+Examples
+--------
+
 * Correct your mp3 file
 
 ~~~java
