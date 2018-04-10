@@ -144,24 +144,36 @@ public class MyMp3File extends Mp3File {
         return name;
     }
 
+    public DiscogResults searchResults() {
+        Discog api = new Discog();
+        String searchString = getSearchString();
+        try {
+            return api.search(searchString);
+        } catch (IOException | DiscogConsumerNotSetException ex) {
+            Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     /**
      * Send a request to Discog API. It will gess informations to search from
-     * the current informations contained in ID3 tag or from the filename
+     * the current informations contained in ID3 tag or from the filename.
+     *
+     * If response from Discog API contains responses, it will take the first.
      *
      * @return `true` if success
      */
     public boolean getInformations() throws MalformedURLException, DiscogConsumerNotSetException {
-        Discog api = new Discog();
-        try {
-            Iterator<DiscogRelease> results = api.search(getSearchString()).iterator();
+        DiscogResults results = searchResults();
 
-            if (results.hasNext()) {
-                newID3 = results.next().toID3();
+        if (results != null) {
+            Iterator<DiscogRelease> iterator = results.iterator();
+            if (iterator.hasNext()) {
+                newID3 = iterator.next().toID3();
                 return true;
             }
-        } catch (IOException ex) {
-            Logger.getLogger(MyMp3File.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         return false;
     }
 

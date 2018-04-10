@@ -20,7 +20,6 @@ public class DiscogRelease extends JSONObject {
 
     public DiscogRelease(JSONObject json) {
         super(json.toMap());
-
     }
 
     public String getTitle() {
@@ -48,14 +47,18 @@ public class DiscogRelease extends JSONObject {
     }
 
     public String getArtist() {
-        JSONArray artistsArray = (JSONArray) this.get("artists");
-        int length = artistsArray.length();
-        String[] artists = new String[length];
-        for (int i = 0; i < length; i++) {
-            JSONObject artist = artistsArray.getJSONObject(i);
-            artists[i] = (String) artist.get("name");
+        try {
+            JSONArray artistsArray = (JSONArray) this.get("artists");
+            int length = artistsArray.length();
+            String[] artists = new String[length];
+            for (int i = 0; i < length; i++) {
+                JSONObject artist = artistsArray.getJSONObject(i);
+                artists[i] = (String) artist.get("name");
+            }
+            return String.join(" & ", artists);
+        } catch (JSONException e) {
+            return null;
         }
-        return String.join(" & ", artists);
     }
 
     public String getArtistUrl() {
@@ -72,24 +75,32 @@ public class DiscogRelease extends JSONObject {
      * @return corresponding number of genre
      */
     public int getGenre() {
-        JSONArray genresArray = (JSONArray) this.get("genres");
-        int length = genresArray.length();
+        try {
+            JSONArray genresArray = (JSONArray) this.get("genres");
+            int length = genresArray.length();
 
-        if (length == 0) {
+            if (length == 0) {
+                return 0;
+            }
+            final ID3Genres id3Genres = new ID3Genres();
+            return id3Genres.get(genresArray.getString(0));
+        } catch (JSONException e) {
             return 0;
         }
-        final ID3Genres id3Genres = new ID3Genres();
-        return id3Genres.get(genresArray.getString(0));
     }
 
     public String getGenreDescription() {
-        JSONArray genresArray = (JSONArray) this.get("genres");
-        int length = genresArray.length();
-        String[] genres = new String[length];
-        for (int i = 0; i < length; i++) {
-            genres[i] = (String) genresArray.getString(i);
+        try {
+            JSONArray genresArray = (JSONArray) this.get("genres");
+            int length = genresArray.length();
+            String[] genres = new String[length];
+            for (int i = 0; i < length; i++) {
+                genres[i] = (String) genresArray.getString(i);
+            }
+            return String.join(" / ", genres);
+        } catch (JSONException e) {
+            return null;
         }
-        return String.join(" / ", genres);
     }
 
     public String getImageUrl() {
@@ -109,15 +120,43 @@ public class DiscogRelease extends JSONObject {
 
     public ID3v24Tag toID3() {
         ID3v24Tag id3 = new ID3v24Tag();
-
-        id3.setTitle(getTitle());
+        // title
+        {
+            final String value = getTitle();
+            if (value != null) {
+                id3.setTitle(getTitle());
+            }
+        }
         // artist
-        id3.setArtist(getArtist());
-        id3.setArtistUrl(getArtistUrl());
-        id3.setAlbum(getAlbum());
-        id3.setAlbumArtist(getArtist());
+        {
+            final String value = getArtist();
+            if (value != null) {
+                id3.setArtist(getArtist());
+                id3.setAlbumArtist(getArtist());
+            }
+        }
+        // artistUrl
+        {
+            final String value = getArtistUrl();
+            if (value != null) {
+                id3.setArtistUrl(getArtistUrl());
+            }
+
+        }
+        // album
+        {
+            final String value = getAlbum();
+            if (value != null) {
+                id3.setAlbum(getAlbum());
+            }
+        }
+        {
+            final String value = getGenreDescription();
+            if (value != null) {
+                id3.setGenreDescription(value);
+            }
+        }
         // genre
-        id3.setGenreDescription(getGenreDescription());
         id3.setGenre(getGenre());
         // year
         id3.setYear(Integer.toString(getYear()));
