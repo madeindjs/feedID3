@@ -31,7 +31,7 @@ public class Discog {
      * @throws MalformedURLException
      * @throws IOException
      */
-    public DiscogRelease search(String what) throws MalformedURLException, IOException, DiscogConsumerNotSetException {
+    public DiscogResults search(String what) throws MalformedURLException, IOException, DiscogConsumerNotSetException {
         checkConsumer();
         String targetURL = String.format(
                 "https://api.discogs.com/database/search?q=%s&key=%s&secret=%s",
@@ -45,10 +45,8 @@ public class Discog {
             return null;
         }
 
-        JSONObject firstResult = (JSONObject) results.get(0);
-        String ressourceUrl = (String) firstResult.get("resource_url");
+        return new DiscogResults(results);
 
-        return new DiscogRelease((JSONObject) getJsonFromUrl(ressourceUrl));
     }
 
     private JSONObject getJsonFromUrl(String path) throws IOException {

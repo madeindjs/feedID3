@@ -10,6 +10,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -152,9 +153,10 @@ public class MyMp3File extends Mp3File {
     public boolean getInformations() throws MalformedURLException, DiscogConsumerNotSetException {
         Discog api = new Discog();
         try {
-            DiscogRelease result = api.search(getSearchString());
-            if (result != null) {
-                newID3 = result.toID3();
+            Iterator<DiscogRelease> results = api.search(getSearchString()).iterator();
+
+            if (results.hasNext()) {
+                newID3 = results.next().toID3();
                 return true;
             }
         } catch (IOException ex) {
