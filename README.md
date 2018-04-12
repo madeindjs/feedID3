@@ -33,56 +33,52 @@ dependencies {
 Examples
 --------
 
-* Correct your mp3 file
-
 ~~~java
-import com.github.madeindjs.feedID3.DiscogConsumerNotSetException;
-import com.github.madeindjs.feedID3.MyMp3File;
 import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException, MalformedURLException, DiscogConsumerNotSetException {
-        // set API key
-        Discog.CONSUMER_KEY = "<YOUR_CONSUMER_KEY>";
-        Discog.CONSUMER_SECRET = "<YOUR_CONSUMER_SECRET>";
+    public static void main(String[] args) {
+        Discog.CONSUMER_KEY = "xEnspHdzbJFKuGlvlNde";
+        Discog.CONSUMER_SECRET = "jtgMHnbpRaGbXEDBXimCDddFqLtzZTAG";
 
         // Open file
-        MyMp3File file = new MyMp3File("src/test/resources/empty.mp3");
-        // fetch informations from Discog API
-        file.getInformations();
-        // read information fetched
-        ID3v24Tag id3 = file.getNewID3();
-        System.out.println(String.format("New artist: %s", id3.getArtist()));
-        // overwide file
-        file.update();
-    }
+        MyMp3File file;
+        try {
+            // open file
+            file = new MyMp3File("src/test/resources/empty.mp3");
 
-}
-~~~
+            // find & set first result from Discog API
+            file.getInformations();
+            ID3v24Tag id3 = file.getNewID3();
+            file.update();
 
-* Correct all your librairy **(This will overwride all your mp3 tags)**
+            // find all results from discog API
+            DiscogResults searchResults = file.searchResults();
+            // iterate from results
+            Iterator<DiscogRelease> iterator = searchResults.iterator();
+            while (iterator.hasNext()) {
+                DiscogRelease release = iterator.next();
+                System.out.println(String.format(
+                        "%s - %s",
+                        release.getArtist(),
+                        release.getTitle()
+                ));
+            }
 
-~~~java
-import com.github.madeindjs.feedID3.DiscogConsumerNotSetException;
-import com.github.madeindjs.feedID3.Librairy;
-import com.mpatric.mp3agic.InvalidDataException;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.mpatric.mp3agic.UnsupportedTagException;
+        } catch (IOException e) {
+            System.err.println("Can't read / write MP3 file");
+        } catch (UnsupportedTagException | InvalidDataException | NotSupportedException e) {
+            System.err.println("Can't read / write ID3 Tag");
+        } catch (DiscogConsumerNotSetException e) {
+            System.err.println("Consumer key / secret not valid");
+        }
 
-public class Main {
-
-    public static void main(String[] args) throws IOException, UnsupportedTagException, InvalidDataException, NotSupportedException, MalformedURLException, DiscogConsumerNotSetException {
-        // set API key
-        Discog.CONSUMER_KEY = "<YOUR_CONSUMER_KEY>";
-        Discog.CONSUMER_SECRET = "<YOUR_CONSUMER_SECRET>";
-
-        Librairy librairy = new Librairy("src/test/resources");
-        librairy.correct();
     }
 
 }
