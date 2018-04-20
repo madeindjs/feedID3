@@ -88,7 +88,7 @@ public class MyMp3File extends Mp3File {
      * @throws IOException
      * @throws NotSupportedException
      */
-    public void update() throws IOException, NotSupportedException {
+    public boolean update() throws IOException, NotSupportedException {
         // this.setId3v2Tag(newID3);
         this.setId3v1Tag(newID3);
         this.currentID3 = newID3;
@@ -98,7 +98,7 @@ public class MyMp3File extends Mp3File {
         File retag = new File(getRetagFilename());
 
         origin.delete();
-        retag.renameTo(origin);
+        return retag.renameTo(origin);
     }
 
     private String getRetagFilename() {
